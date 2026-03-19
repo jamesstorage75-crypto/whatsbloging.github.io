@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaperBlog - Messages</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(180deg, #e8e8e8 0%, #d0d0d0 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        /* Brushed Metal Header - Same as main site */
+        .header {
+            background: linear-gradient(180deg, 
+                #f5f5f5 0%, 
+                #e0e0e0 5%,
+                #d0d0d0 50%,
+                #c0c0c0 95%,
+                #a0a0a0 100%);
+            border-bottom: 1px solid #999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            border-radius: 8px;
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.4),
+                inset 0 -1px 0 rgba(0,0,0,0.2),
+                0 2px 4px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+            border: 1px solid #2a6db5;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 300;
+            color: #444;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+        }
+        
+        .logo-text span {
+            font-weight: 600;
+            color: #2a6db5;
+        }
+        
+        /* Search Bar - Glass effect */
+        .search-container {
+            position: relative;
+            width: 400px;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #999;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #f8f8f8 0%, #fff 100%);
+            box-shadow: 
+                inset 0 2px 4px rgba(0,0,0,0.1),
+                0 1px 0 rgba(255,255,255,0.8);
+            font-size: 14px;
+            color: #555;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .search-bar:focus {
+            border-color: #4a90e2;
+            box-shadow: 
+                inset 0 2px 4px rgba(0,0,0,0.1),
+                0 0 0 3px rgba(74,144,226,0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .notification-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #f0f0f0 0%, #d8d8d8 100%);
+            border: 1px solid #aaa;
+            box-shadow: 
+                0 1px 2px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            font-size: 16px;
+            transition: all 0.1s;
+        }
+        
+        .notification-btn:hover {
+            background: linear-gradient(180deg, #e8e8e8 0%, #c8c8c8 100%);
+        }
+        
+        .notification-btn:active {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            transform: translateY(1px);
+        }
+        
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(180deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 2px solid #e8e8e8;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
+            border: 1px solid #aaa;
+            border-radius: 20px;
+            box-shadow: 
+                0 1px 2px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .user-profile:hover {
+            background: linear-gradient(180deg, #fff 0%, #e8e8e8 100%);
+        }
+        
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        /* Navigation - Dark Leather Texture */
+        .nav {
+            background: linear-gradient(180deg, 
+                #3a3a3a 0%, 
+                #2d2d2d 5%,
+                #1a1a1a 50%,
+                #0d0d0d 100%);
+            border-bottom: 1px solid #000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .nav-item {
+            padding: 12px 24px;
+            color: #ccc;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            border-right: 1px solid #333;
+            border-left: 1px solid #444;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.8);
+            transition: all 0.2s;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .nav-item:first-child {
+            border-left: none;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.1) 0%, 
+                rgba(255,255,255,0.05) 100%);
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            background: linear-gradient(180deg, 
+                rgba(74,144,226,0.3) 0%, 
+                rgba(74,144,226,0.1) 100%);
+            box-shadow: inset 0 -3px 0 #4a90e2;
+        }
+        
+        /* AIM MESSAGING CONTAINER */
+        .messaging-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+            height: calc(100vh - 200px);
+            min-height: 600px;
+        }
+        
+        /* AIM Buddy List - Left Sidebar */
+        .buddy-list-container {
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.95) 0%, 
+                rgba(248,248,248,0.95) 100%);
+            border: 1px solid #c0c0c0;
+            border-radius: 8px;
+            box-shadow: 
+                0 2px 8px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .buddy-list-header {
+            background: linear-gradient(180deg, 
+                #4a90e2 0%, 
+                #357abd 100%);
+            padding: 12px 15px;
+            border-bottom: 1px solid #2a6db5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+        }
+        
+        .buddy-list-header-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .buddy-list-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+        
+        .buddy-group {
+            margin-bottom: 15px;
+        }
+        
+        .buddy-group-header {
+            padding: 8px 15px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: linear-gradient(180deg, #f0f0f0 0%, #e8e8e8 100%);
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .buddy-group-header:hover {
+            background: linear-gradient(180deg, #e8e8e8 0%, #e0e0e0 100%);
+        }
+        
+        .buddy-group-arrow {
+            font-size: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .buddy-group.collapsed .buddy-group-arrow {
+            transform: rotate(-90deg);
+        }
+        
+        .buddy-group.collapsed .buddy-group-items {
+            display: none;
+        }
+        
+        .buddy-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .buddy-item:hover {
+            background: linear-gradient(90deg, 
+                rgba(74,144,226,0.1) 0%, 
+                transparent 100%);
+        }
+        
+        .buddy-item.active {
+            background: linear-gradient(90deg, 
+                rgba(74,144,226,0.2) 0%, 
+                rgba(74,144,226,0.05) 100%);
+            border-left: 3px solid #4a90e2;
+        }
+        
+        .buddy-item.unread {
+            background: linear-gradient(90deg, 
+                rgba(255,107,107,0.1) 0%, 
+                transparent 100%);
+        }
+        
+        .buddy-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .buddy-status {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .buddy-status.online {
+            background: linear-gradient(180deg, #98fb98 0%, #90ee90 100%);
+        }
+        
+        .buddy-status.away {
+            background: linear-gradient(180deg, #ffd700 0%, #ffcc00 100%);
+        }
+        
+        .buddy-status.busy {
+            background: linear-gradient(180deg, #ff6b6b 0%, #ee5a5a 100%);
+        }
+        
+        .buddy-status.offline {
+            background: linear-gradient(180deg, #ccc 0%, #bbb 100%);
+        }
+        
+        .buddy-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .buddy-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .buddy-item.active .buddy-name {
+            color: #2a6db5;
+        }
+        
+        .buddy-message {
+            font-size: 12px;
+            color: #888;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 2px;
+        }
+        
+        .buddy-item.unread .buddy-message {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+        
+        .buddy-time {
+            font-size: 11px;
+            color: #aaa;
+            flex-shrink: 0;
+        }
+        
+        .buddy-unread-badge {
+            background: linear-gradient(180deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        /* AIM Chat Window - Right Side */
+        .chat-container {
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.95) 0%, 
+                rgba(248,248,248,0.95) 100%);
+            border: 1px solid #c0c0c0;
+            border-radius: 8px;
+            box-shadow: 
+                0 2px 8px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background: linear-gradient(180deg, 
+                #f0f0f0 0%, 
+                #e0e0e0 100%);
+            padding: 12px 20px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .chat-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .chat-status-indicator {
+            position: absolute;
+            bottom: -3px;
+            right: -3px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .chat-status-indicator.online {
+            background: linear-gradient(180deg, #98fb98 0%, #90ee90 100%);
+        }
+        
+        .chat-header-details h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        
+        .chat-header-details p {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .chat-header-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .chat-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: linear-gradient(180deg, #f8f8f8 0%, #e8e8e8 100%);
+            border: 1px solid #aaa;
+            box-shadow: 
+                0 2px 0 #aaa,
+                0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.1s;
+        }
+        
+        .chat-action-btn:hover {
+            background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
+        }
+        
+        .chat-action-btn:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+        
+        /* AIM Chat Messages Area */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 80%;
+            animation: messageSlide 0.3s ease-out;
+        }
+        
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message.own {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        
+        .message.own .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .message-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .message.own .message-content {
+            align-items: flex-end;
+        }
+        
+        .message-bubble {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .message-bubble::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+        
+        .message:not(.own) .message-bubble {
+            background: linear-gradient(180deg, #fff 0%, #f8f8f8 100%);
+            border: 1px solid #ddd;
+            border-top-left-radius: 4px;
+        }
+        
+        .message:not(.own) .message-bubble::before {
+            left: -8px;
+            border-width: 8px 8px 8px 0;
+            border-color: transparent #ddd transparent transparent;
+        }
+        
+        .message.own .message-bubble {
+            background: linear-gradient(180deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            border: 1px solid #2a6db5;
+            border-top-right-radius: 4px;
+        }
+        
+        .message.own .message-bubble::before {
+            right: -8px;
+            border-width: 8px 0 8px 8px;
+            border-color: transparent transparent transparent #2a6db5;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 2px;
+        }
+        
+        .message.own .message-time {
+            color: #888;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: linear-gradient(180deg, #fff 0%, #f8f8f8 100%);
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            border-top-left-radius: 4px;
+            align-self: flex-start;
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #aaa;
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typingBounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        /* AIM Chat Input Area */
+        .chat-input-container {
+            background: linear-gradient(180deg, 
+                #f0f0f0 0%, 
+                #e8e8e8 100%);
+            border-top: 1px solid #ccc;
+            padding: 15px 20px;
+        }
+        
+        .chat-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .toolbar-btn {
+            padding: 6px 12px;
+            background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #555;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transition: all 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .toolbar-btn:hover {
+            background: linear-gradient(180deg, #f8f8f8 0%, #e8e8e8 100%);
+        }
+        
+        .toolbar-btn:active {
+            transform: translateY(1px);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            resize: none;
+            min-height: 44px;
+            max-height: 120px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        
+        .chat-input:focus {
+            border-color: #4a90e2;
+            box-shadow: 
+                inset 0 2px 4px rgba(0,0,0,0.05),
+                0 0 0 3px rgba(74,144,226,0.1);
+        }
+        
+        .send-btn {
+            padding: 12px 24px;
+            background: linear-gradient(180deg, 
+                #4a90e2 0%, 
+                #357abd 100%);
+            border: 1px solid #2a6db5;
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 
+                0 3px 0 #2a6db5,
+                0 4px 6px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+            transition: all 0.1s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .send-btn:hover {
+            background: linear-gradient(180deg, 
+                #5aa0f2 0%, 
+                #4a90e2 100%);
+            transform: translateY(-1px);
+            box-shadow: 
+                0 4px 0 #2a6db5,
+                0 5px 8px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+        
+        .send-btn:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 1px 0 #2a6db5,
+                inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 
+                0 3px 0 #2a6db5,
+                0 4px 6px rgba(0,0,0,0.2);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #888;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .empty-state-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 20px;
+            box-shadow: 
+                inset 0 2px 4px rgba(255,255,255,0.5),
+                0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .empty-state h3 {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .empty-state p {
+            font-size: 14px;
+            max-width: 300px;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(180deg, #333 0%, #222 100%);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            border: 1px solid #444;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(180deg, 
+                #2a2a2a 0%, 
+                #1a1a1a 100%);
+            border-top: 1px solid #333;
+            margin-top: 50px;
+            padding: 40px 0;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .footer-section h4 {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+        
+        .footer-links a:hover {
+            color: #4a90e2;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 30px auto 0;
+            padding: 20px 30px 0;
+            border-top: 1px solid #333;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .messaging-container {
+                grid-template-columns: 260px 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .messaging-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .buddy-list-container {
+                height: 400px;
+            }
+            
+            .chat-container {
+                height: 500px;
+            }
+            
+            .search-container {
+                width: 200px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">PB</div>
+                <div class="logo-text">Paper<span>Blog</span></div>
+            </div>
+            
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-bar" placeholder="Search professionals, companies, jobs..." id="searchBar">
+            </div>
+            
+            <div class="user-menu">
+                <div class="notification-btn" onclick="showToast('3 new notifications')">
+                    🔔
+                    <span class="badge" id="notifBadge">3</span>
+                </div>
+                <div class="notification-btn" onclick="showToast('5 new messages')">
+                    ✉️
+                    <span class="badge" id="msgBadge">5</span>
+                </div>
+                <div class="user-profile" onclick="showToast('Profile menu opened')">
+                    <div class="user-avatar"></div>
+                    <span class="user-name">Alex M.</span>
+                    <span style="color:#888;font-size:10px">▼</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="test2.html" class="nav-item">Home</a>
+            <a class="nav-item" onclick="switchTab(this, 'network')">My Network</a>
+            <a class="nav-item" onclick="switchTab(this, 'jobs')">Jobs</a>
+            <a href="messages.html" class="nav-item active">Messaging</a>
+            <a class="nav-item" onclick="switchTab(this, 'notifications')">Notifications</a>
+            <a class="nav-item" onclick="switchTab(this, 'profile')">Me</a>
+        </div>
+    </nav>
+    
+    <!-- AIM Messaging Container -->
+    <div class="messaging-container">
+        <!-- Buddy List (Left Sidebar) -->
+        <div class="buddy-list-container">
+            <div class="buddy-list-header">
+                <div class="buddy-list-header-icon">👥</div>
+                <span>Buddy List</span>
+            </div>
+            
+            <div class="buddy-list-content" id="buddyList">
+                <!-- Online Group -->
+                <div class="buddy-group" id="group-online">
+                    <div class="buddy-group-header" onclick="toggleGroup('group-online')">
+                        <span class="buddy-group-arrow">▼</span>
+                        <span>Online (4)</span>
+                    </div>
+                    <div class="buddy-group-items">
+                        <div class="buddy-item active" onclick="selectConversation(0)" data-id="0">
+                            <div class="buddy-avatar" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                                <div class="buddy-status online"></div>
+                            </div>
+                            <div class="buddy-info">
+                                <div class="buddy-name">Sarah Chen</div>
+                                <div class="buddy-message">VP of Engineering at StartupXYZ</div>
+                            </div>
+                            <div class="buddy-time">2m</div>
+                        </div>
+                        
+                        <div class="buddy-item unread" onclick="selectConversation(1)" data-id="1">
+                            <div class="buddy-avatar" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                                <div class="buddy-status online"></div>
+                            </div>
+                            <div class="buddy-info">
+                                <div class="buddy-name">James Wilson</div>
+                                <div class="buddy-message">Hey, did you see the new update?</div>
+                            </div>
+                            <div class="buddy-time">5m</div>
+                            <span class="buddy-unread-badge">2</span>
+                        </div>
+                        
+                        <div class="buddy-item" onclick="selectConversation(2)" data-id="2">
+                            <div class="buddy-avatar" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                                <div class="buddy-status away"></div>
+                            </div>
+                            <div class="buddy-info">
+                                <div class="buddy-name">Emily Rodriguez</div>
+                                <div class="buddy-message">Founder & CEO at DesignStudio</div>
+                            </div>
+                            <div class="buddy-time">1h</div>
+                        </div>
+                        
+                        <div class="buddy-item" onclick="selectConversation(3)" data-id="3">
+                            <div class="buddy-avatar" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+                                <div class="buddy-status online"></div>
+                            </div>
+                            <div class="buddy-info">
+                                <div class="buddy-name">Michael Park</div>
+                                <div class="buddy-message">CTO at FinTech Inc.</div>
+                            </div>
+                            <div class="buddy-time">3h</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Offline Group -->
+                <div class="buddy-group collapsed" id="group-offline">
+                    <div class="buddy-group-header" onclick="toggleGroup('group-offline')">
+                        <span class="buddy-group-arrow">▼</span>
+                        <span>Offline (2)</span>
+                    </div>
+                    <div class="buddy-group-items">
+                        <div class="buddy-item" onclick="selectConversation(4)" data-id="4">
+                            <div class="buddy-avatar" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);">
+                                <div class="buddy-status offline"></div>
+                            </div>
+                            <div class="buddy-info">
+                                <div class="buddy-name">Lisa Thompson</div>
+                                <div class="buddy-message">Design Director</div>
+                            </div>
+                            <div class="buddy-time">1d</div>
+                        </div>
+                        
+                        <div class="buddy-item" onclick="selectConversation(5)" data-id="5">
+                            <div class="buddy-avatar" style="background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);">
+                                <div class="buddy-status offline"></div>
+                            </div>
+                            <div class="buddy-info">
+                                <div class="buddy-name">David Kim</div>
+                                <div class="buddy-message">Senior Developer</div>
+                            </div>
+                            <div class="buddy-time">2d</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chat Window (Right Side) -->
+        <div class="chat-container" id="chatContainer">
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState">
+                <div class="empty-state-icon">💬</div>
+                <h3>Select a conversation</h3>
+                <p>Choose someone from your buddy list to start messaging</p>
+            </div>
+            
+            <!-- Active Chat (Hidden by default) -->
+            <div class="chat-header" id="chatHeader" style="display: none;">
+                <div class="chat-header-info">
+                    <div class="chat-avatar" id="chatAvatar" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <div class="chat-status-indicator online" id="chatStatus"></div>
+                    </div>
+                    <div class="chat-header-details">
+                        <h3 id="chatName">Sarah Chen</h3>
+                        <p id="chatTitle">VP of Engineering at StartupXYZ</p>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <button class="chat-action-btn" onclick="showToast('Voice call started')" title="Voice Call">📞</button>
+                    <button class="chat-action-btn" onclick="showToast('Video call started')" title="Video Call">📹</button>
+                    <button class="chat-action-btn" onclick="showToast('More options')" title="More">⋮</button>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages" style="display: none;">
+                <!-- Messages will be rendered here -->
+            </div>
+            
+            <div class="chat-input-container" id="chatInputContainer" style="display: none;">
+                <div class="chat-toolbar">
+                    <button class="toolbar-btn" onclick="showToast('Emoji picker opened')">😊 Emoji</button>
+                    <button class="toolbar-btn" onclick="showToast('File upload opened')">📎 Attach</button>
+                    <button class="toolbar-btn" onclick="showToast('GIF picker opened')">🎬 GIF</button>
+                    <button class="toolbar-btn" onclick="showToast('Voice message')">🎤 Voice</button>
+                </div>
+                <div class="chat-input-wrapper">
+                    <textarea class="chat-input" id="messageInput" placeholder="Type a message... (Press Enter to send)" rows="1"></textarea>
+                    <button class="send-btn" onclick="sendMessage()">
+                        <span>Send</span>
+                        <span>➤</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('About page')">Company</a></li>
+                    <li><a onclick="showToast('Careers page')">Careers</a></li>
+                    <li><a onclick="showToast('Press page')">Press</a></li>
+                    <li><a onclick="showToast('Blog page')">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Community</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('Guidelines page')">Guidelines</a></li>
+                    <li><a onclick="showToast('Partners page')">Partners</a></li>
+                    <li><a onclick="showToast('Developers page')">Developers</a></li>
+                    <li><a onclick="showToast('Advertise page')">Advertise</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('Help Center')">Help Center</a></li>
+                    <li><a onclick="showToast('Safety Center')">Safety Center</a></li>
+                    <li><a onclick="showToast('Privacy Policy')">Privacy Policy</a></li>
+                    <li><a onclick="showToast('Terms of Service')">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('Twitter link')">Twitter</a></li>
+                    <li><a onclick="showToast('Facebook link')">Facebook</a></li>
+                    <li><a onclick="showToast('Instagram link')">Instagram</a></li>
+                    <li><a onclick="showToast('LinkedIn link')">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2008 ConnectPro Inc. All rights reserved. | Privacy | Terms | Cookies</p>
+        </div>
+    </footer>
+
+    <script>
+        // Current user
+        const currentUser = {
+            name: 'Alex Morgan',
+            title: 'Senior Product Designer at TechCorp',
+            avatar: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+        };
+        
+        // Conversations data
+        const conversations = [
+            {
+                id: 0,
+                name: 'Sarah Chen',
+                title: 'VP of Engineering at StartupXYZ',
+                avatar: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                status: 'online',
+                messages: [
+                    { type: 'received', text: 'Hey Alex! How are you doing?', time: '2:30 PM' },
+                    { type: 'sent', text: 'Hi Sarah! I\'m doing great, thanks for asking. How\'s the new platform update going?', time: '2:32 PM' },
+                    { type: 'received', text: 'It\'s going really well! We just shipped the major update yesterday. Early metrics show a 40% increase in activation rates! 🚀', time: '2:35 PM' },
+                    { type: 'sent', text: 'That\'s amazing news! Congratulations to the team!', time: '2:36 PM' }
+                ]
+            },
+            {
+                id: 1,
+                name: 'James Wilson',
+                title: 'Product Manager at EnterpriseCo',
+                avatar: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+                status: 'online',
+                unread: 2,
+                messages: [
+                    { type: 'received', text: 'Hey, did you see the new update?', time: '10:15 AM' },
+                    { type: 'received', text: 'The design team really outdid themselves this time', time: '10:16 AM' }
+                ]
+            },
+            {
+                id: 2,
+                name: 'Emily Rodriguez',
+                title: 'Founder & CEO at DesignStudio',
+                avatar: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                status: 'away',
+                messages: [
+                    { type: 'received', text: 'Thanks for connecting!', time: 'Yesterday' },
+                    { type: 'sent', text: 'Great to connect with you too, Emily!', time: 'Yesterday' }
+                ]
+            },
+            {
+                id: 3,
+                name: 'Michael Park',
+                title: 'CTO at FinTech Inc.',
+                avatar: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+                status: 'online',
+                messages: [
+                    { type: 'received', text: 'Just finished reading your article on design systems', time: 'Yesterday' },
+                    { type: 'received', text: 'Really insightful stuff!', time: 'Yesterday' }
+                ]
+            },
+            {
+                id: 4,
+                name: 'Lisa Thompson',
+                title: 'Design Director',
+                avatar: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
+                status: 'offline',
+                messages: []
+            },
+            {
+                id: 5,
+                name: 'David Kim',
+                title: 'Senior Developer',
+                avatar: 'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)',
+                status: 'offline',
+                messages: []
+            }
+        ];
+        
+        let activeConversation = null;
+        let typingTimeout = null;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-resize textarea
+            const textarea = document.getElementById('messageInput');
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+            });
+            
+            // Enter to send
+            textarea.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+        });
+        
+        // Toggle buddy group
+        function toggleGroup(groupId) {
+            const group = document.getElementById(groupId);
+            group.classList.toggle('collapsed');
+        }
+        
+        // Select conversation
+        function selectConversation(id) {
+            activeConversation = conversations.find(c => c.id === id);
+            if (!activeConversation) return;
+            
+            // Update buddy list UI
+            document.querySelectorAll('.buddy-item').forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.dataset.id) === id) {
+                    item.classList.remove('unread');
+                    const badge = item.querySelector('.buddy-unread-badge');
+                    if (badge) badge.remove();
+                }
+            });
+            document.querySelector(`.buddy-item[data-id="${id}"]`).classList.add('active');
+            
+            // Update chat header
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('chatHeader').style.display = 'flex';
+            document.getElementById('chatMessages').style.display = 'flex';
+            document.getElementById('chatInputContainer').style.display = 'block';
+            
+            document.getElementById('chatName').textContent = activeConversation.name;
+            document.getElementById('chatTitle').textContent = activeConversation.title;
+            document.getElementById('chatAvatar').style.background = activeConversation.avatar;
+            document.getElementById('chatStatus').className = `chat-status-indicator ${activeConversation.status}`;
+            
+            // Render messages
+            renderMessages();
+            
+            // Focus input
+            document.getElementById('messageInput').focus();
+            
+            // Show typing indicator if online
+            if (activeConversation.status === 'online' && Math.random() > 0.5) {
+                showTypingIndicator();
+            }
+        }
+        
+        // Render messages
+        function renderMessages() {
+            const container = document.getElementById('chatMessages');
+            
+            if (activeConversation.messages.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; color: #888; margin-top: 50px;">
+                        <p>No messages yet. Say hello! 👋</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = activeConversation.messages.map(msg => `
+                <div class="message ${msg.type}">
+                    <div class="message-avatar" style="background: ${msg.type === 'sent' ? currentUser.avatar : activeConversation.avatar}"></div>
+                    <div class="message-content">
+                        <div class="message-bubble">${msg.text}</div>
+                        <div class="message-time">${msg.time}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Scroll to bottom
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        // Show typing indicator
+        function showTypingIndicator() {
+            const container = document.getElementById('chatMessages');
+            const indicator = document.createElement('div');
+            indicator.className = 'typing-indicator';
+            indicator.id = 'typingIndicator';
+            indicator.innerHTML = `
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+                <span>${activeConversation.name} is typing...</span>
+            `;
+            container.appendChild(indicator);
+            container.scrollTop = container.scrollHeight;
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                const el = document.getElementById('typingIndicator');
+                if (el) el.remove();
+            }, 3000);
+        }
+        
+        // Send message
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            
+            if (!text || !activeConversation) return;
+            
+            // Add message
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            activeConversation.messages.push({
+                type: 'sent',
+                text: text,
+                time: time
+            });
+            
+            // Clear input
+            input.value = '';
+            input.style.height = 'auto';
+            
+            // Render
+            renderMessages();
+            
+            // Simulate reply
+            setTimeout(() => {
+                const replies = [
+                    "That's great to hear!",
+                    "I totally agree with you.",
+                    "Thanks for sharing that!",
+                    "Interesting point, let me think about it.",
+                    "Can you tell me more about that?",
+                    "Absolutely! 🎉",
+                    "I'll get back to you on that soon.",
+                    "Sounds like a plan!"
+                ];
+                
+                const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                activeConversation.messages.push({
+                    type: 'received',
+                    text: randomReply,
+                    time: replyTime
+                });
+                
+                renderMessages();
+                showToast(`New message from ${activeConversation.name}`);
+            }, 2000 + Math.random() * 2000);
+        }
+        
+        // Switch tab
+        function switchTab(element, tab) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            showToast('Switched to ' + tab);
+        }
+        
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Search functionality
+        document.getElementById('searchBar').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                showToast('Searching for: ' + this.value);
+            }
+        });
+    </script>
+</body>
+</html>
