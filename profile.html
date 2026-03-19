@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaperBlog - Profile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(180deg, #e8e8e8 0%, #d0d0d0 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        /* Brushed Metal Header */
+        .header {
+            background: linear-gradient(180deg, 
+                #f5f5f5 0%, 
+                #e0e0e0 5%,
+                #d0d0d0 50%,
+                #c0c0c0 95%,
+                #a0a0a0 100%);
+            border-bottom: 1px solid #999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            border-radius: 8px;
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.4),
+                inset 0 -1px 0 rgba(0,0,0,0.2),
+                0 2px 4px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+            border: 1px solid #2a6db5;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 300;
+            color: #444;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+        }
+        
+        .logo-text span {
+            font-weight: 600;
+            color: #2a6db5;
+        }
+        
+        .search-container {
+            position: relative;
+            width: 400px;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #999;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #f8f8f8 0%, #fff 100%);
+            box-shadow: 
+                inset 0 2px 4px rgba(0,0,0,0.1),
+                0 1px 0 rgba(255,255,255,0.8);
+            font-size: 14px;
+            color: #555;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .search-bar:focus {
+            border-color: #4a90e2;
+            box-shadow: 
+                inset 0 2px 4px rgba(0,0,0,0.1),
+                0 0 0 3px rgba(74,144,226,0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .notification-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #f0f0f0 0%, #d8d8d8 100%);
+            border: 1px solid #aaa;
+            box-shadow: 
+                0 1px 2px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            font-size: 16px;
+            transition: all 0.1s;
+        }
+        
+        .notification-btn:hover {
+            background: linear-gradient(180deg, #e8e8e8 0%, #c8c8c8 100%);
+        }
+        
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(180deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 2px solid #e8e8e8;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
+            border: 1px solid #aaa;
+            border-radius: 20px;
+            box-shadow: 
+                0 1px 2px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        /* Navigation */
+        .nav {
+            background: linear-gradient(180deg, 
+                #3a3a3a 0%, 
+                #2d2d2d 5%,
+                #1a1a1a 50%,
+                #0d0d0d 100%);
+            border-bottom: 1px solid #000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .nav-item {
+            padding: 12px 24px;
+            color: #ccc;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            border-right: 1px solid #333;
+            border-left: 1px solid #444;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.8);
+            transition: all 0.2s;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .nav-item:first-child {
+            border-left: none;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.1) 0%, 
+                rgba(255,255,255,0.05) 100%);
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            background: linear-gradient(180deg, 
+                rgba(74,144,226,0.3) 0%, 
+                rgba(74,144,226,0.1) 100%);
+            box-shadow: inset 0 -3px 0 #4a90e2;
+        }
+        
+        /* Profile Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 25px;
+        }
+        
+        /* Profile Header Card */
+        .profile-header-card {
+            background: linear-gradient(180deg, 
+                #fff 0%, 
+                #fafafa 100%);
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .cover-photo {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+        
+        .cover-photo::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255,255,255,0.2) 0%, 
+                transparent 50%,
+                rgba(0,0,0,0.1) 100%);
+        }
+        
+        .profile-info-section {
+            padding: 0 30px 30px;
+            position: relative;
+        }
+        
+        .profile-avatar-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 5px solid #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: absolute;
+            top: -75px;
+            left: 30px;
+        }
+        
+        .profile-details {
+            margin-left: 180px;
+            padding-top: 20px;
+        }
+        
+        .profile-name {
+            font-size: 28px;
+            font-weight: 300;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .profile-headline {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .profile-location {
+            font-size: 14px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.1s;
+            font-family: inherit;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(180deg, 
+                #4a90e2 0%, 
+                #357abd 100%);
+            border: 1px solid #2a6db5;
+            color: white;
+            box-shadow: 
+                0 3px 0 #2a6db5,
+                0 4px 6px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(180deg, 
+                #5aa0f2 0%, 
+                #4a90e2 100%);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 1px 0 #2a6db5,
+                inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(180deg, 
+                #fff 0%, 
+                #f0f0f0 100%);
+            border: 1px solid #aaa;
+            color: #555;
+            box-shadow: 
+                0 2px 0 #aaa,
+                0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(180deg, 
+                #f8f8f8 0%, 
+                #e8e8e8 100%);
+        }
+        
+        .btn-secondary:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+        
+        /* Content Cards */
+        .content-card {
+            background: linear-gradient(180deg, 
+                #fff 0%, 
+                #fafafa 100%);
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .edit-btn {
+            font-size: 13px;
+            color: #2a6db5;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .edit-btn:hover {
+            text-decoration: underline;
+        }
+        
+        /* Experience Item */
+        .experience-item {
+            display: flex;
+            gap: 15px;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .experience-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .experience-item:first-child {
+            padding-top: 0;
+        }
+        
+        .company-logo-small {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .experience-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+        
+        .experience-content .company {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .experience-content .date {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        
+        .experience-content .description {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        /* Skills */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .skill-tag {
+            padding: 8px 16px;
+            background: linear-gradient(180deg, #f0f0f0 0%, #e8e8e8 100%);
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .skill-tag:hover {
+            background: linear-gradient(180deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            border-color: #2a6db5;
+        }
+        
+        /* Right Sidebar Widgets */
+        .widget {
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.95) 0%, 
+                rgba(248,248,248,0.95) 100%);
+            border: 1px solid #c0c0c0;
+            border-radius: 8px;
+            box-shadow: 
+                0 2px 8px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .widget-header {
+            background: linear-gradient(180deg, 
+                #f0f0f0 0%, 
+                #e0e0e0 100%);
+            padding: 12px 15px;
+            border-bottom: 1px solid #ccc;
+            font-size: 12px;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .widget-content {
+            padding: 15px;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-label {
+            color: #666;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            color: #2a6db5;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(180deg, #333 0%, #222 100%);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            border: 1px solid #444;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(180deg, 
+                #2a2a2a 0%, 
+                #1a1a1a 100%);
+            border-top: 1px solid #333;
+            margin-top: 50px;
+            padding: 40px 0;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .footer-section h4 {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+        
+        .footer-links a:hover {
+            color: #4a90e2;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 30px auto 0;
+            padding: 20px 30px 0;
+            border-top: 1px solid #333;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .right-sidebar {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-details {
+                margin-left: 0;
+                margin-top: 80px;
+                text-align: center;
+            }
+            .profile-avatar-large {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .profile-actions {
+                justify-content: center;
+            }
+            .search-container {
+                width: 200px;
+            }
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">PB</div>
+                <div class="logo-text">Paper<span>Blog</span></div>
+            </div>
+            
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-bar" placeholder="Search professionals, companies, jobs..." id="searchBar">
+            </div>
+            
+            <div class="user-menu">
+                <div class="notification-btn" onclick="showToast('3 new notifications')">
+                    🔔
+                    <span class="badge">3</span>
+                </div>
+                <div class="notification-btn" onclick="showToast('5 new messages')">
+                    ✉️
+                    <span class="badge">5</span>
+                </div>
+                <div class="user-profile" onclick="showToast('Profile menu opened')">
+                    <div class="user-avatar"></div>
+                    <span class="user-name">Alex M.</span>
+                    <span style="color:#888;font-size:10px">▼</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="test2.html" class="nav-item">Home</a>
+            <a href="network.html" class="nav-item">My Network</a>
+            <a href="jobs.html" class="nav-item">Jobs</a>
+            <a href="messages.html" class="nav-item">Messaging</a>
+            <a href="notifications.html" class="nav-item">Notifications</a>
+            <a href="profile.html" class="nav-item active">Me</a>
+        </div>
+    </nav>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Profile Header -->
+            <div class="profile-header-card">
+                <div class="cover-photo"></div>
+                <div class="profile-info-section">
+                    <div class="profile-avatar-large"></div>
+                    <div class="profile-details">
+                        <h1 class="profile-name">Alex Morgan</h1>
+                        <p class="profile-headline">Senior Product Designer at TechCorp | Building design systems that scale</p>
+                        <p class="profile-location">
+                            <span>📍 San Francisco Bay Area</span>
+                            <span>🔗 paperblog.com/in/alexmorgan</span>
+                            <span>📧 alex.morgan@email.com</span>
+                        </p>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary" onclick="showToast('Opening message composer')">Message</button>
+                            <button class="btn btn-secondary" onclick="showToast('Profile settings opened')">More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About Section -->
+            <div class="content-card">
+                <div class="card-title">
+                    <span>About</span>
+                    <span class="edit-btn" onclick="showToast('Editing About section')">Edit</span>
+                </div>
+                <p style="font-size: 14px; line-height: 1.7; color: #555;">
+                    Passionate product designer with 8+ years of experience creating intuitive digital experiences. 
+                    Specialized in design systems, user research, and cross-functional collaboration. 
+                    Currently leading the design system initiative at TechCorp, serving 50+ product teams.<br><br>
+                    Previously at Google and Airbnb, where I contributed to products used by millions worldwide. 
+                    I believe in the power of design to solve complex problems and improve people's lives. 
+                    Always eager to connect with fellow designers and innovators.
+                </p>
+            </div>
+            
+            <!-- Experience Section -->
+            <div class="content-card">
+                <div class="card-title">
+                    <span>Experience</span>
+                    <span class="edit-btn" onclick="showToast('Adding new experience')">+ Add</span>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="company-logo-small" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">T</div>
+                    <div class="experience-content">
+                        <h4>Senior Product Designer</h4>
+                        <p class="company">TechCorp</p>
+                        <p class="date">Jan 2021 - Present • 3 yrs 2 mos</p>
+                        <p class="description">Leading design system initiative across 50+ product teams. Established component libraries, design tokens, and documentation. Improved design-to-dev handoff efficiency by 40%.</p>
+                    </div>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="company-logo-small" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">G</div>
+                    <div class="experience-content">
+                        <h4>Product Designer</h4>
+                        <p class="company">Google</p>
+                        <p class="date">Jun 2018 - Dec 2020 • 2 yrs 6 mos</p>
+                        <p class="description">Designed features for Google Workspace used by 2B+ users. Led UX research initiatives and collaborated with engineering to ship 15+ major features.</p>
+                    </div>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="company-logo-small" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">A</div>
+                    <div class="experience-content">
+                        <h4>UX Designer</h4>
+                        <p class="company">Airbnb</p>
+                        <p class="date">Mar 2016 - May 2018 • 2 yrs 2 mos</p>
+                        <p class="description">Redesigned host onboarding flow, increasing completion rates by 25%. Created design patterns for the Airbnb Design System.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Education Section -->
+            <div class="content-card">
+                <div class="card-title">
+                    <span>Education</span>
+                    <span class="edit-btn" onclick="showToast('Adding education')">+ Add</span>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="company-logo-small" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">🎓</div>
+                    <div class="experience-content">
+                        <h4>Master of Design (MDes)</h4>
+                        <p class="company">California College of the Arts</p>
+                        <p class="date">2014 - 2016</p>
+                        <p class="description">Interaction Design specialization. Graduated with honors.</p>
+                    </div>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="company-logo-small" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">🎓</div>
+                    <div class="experience-content">
+                        <h4>Bachelor of Fine Arts (BFA)</h4>
+                        <p class="company">Rhode Island School of Design</p>
+                        <p class="date">2010 - 2014</p>
+                        <p class="description">Graphic Design major with minor in Computer Science.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Skills Section -->
+            <div class="content-card">
+                <div class="card-title">
+                    <span>Skills</span>
+                    <span class="edit-btn" onclick="showToast('Editing skills')">Edit</span>
+                </div>
+                <div class="skills-grid">
+                    <span class="skill-tag">UI/UX Design</span>
+                    <span class="skill-tag">Design Systems</span>
+                    <span class="skill-tag">Figma</span>
+                    <span class="skill-tag">Sketch</span>
+                    <span class="skill-tag">Adobe Creative Suite</span>
+                    <span class="skill-tag">Prototyping</span>
+                    <span class="skill-tag">User Research</span>
+                    <span class="skill-tag">Design Thinking</span>
+                    <span class="skill-tag">HTML/CSS</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Product Strategy</span>
+                    <span class="skill-tag">Team Leadership</span>
+                    <span class="skill-tag">Agile/Scrum</span>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="widget">
+                <div class="widget-header">Profile Stats</div>
+                <div class="widget-content">
+                    <div class="stat-row">
+                        <span class="stat-label">Profile views</span>
+                        <span class="stat-value">2,847</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Post impressions</span>
+                        <span class="stat-value">45.2K</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Search appearances</span>
+                        <span class="stat-value">892</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Connections</span>
+                        <span class="stat-value">847</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="widget">
+                <div class="widget-header">People Also Viewed</div>
+                <div class="widget-content">
+                    <div class="experience-item" style="padding: 10px 0;">
+                        <div class="company-logo-small" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); width: 40px; height: 40px; font-size: 14px;">👤</div>
+                        <div class="experience-content">
+                            <h4 style="font-size: 14px;">Sarah Chen</h4>
+                            <p class="company" style="font-size: 12px;">VP of Engineering at StartupXYZ</p>
+                        </div>
+                    </div>
+                    <div class="experience-item" style="padding: 10px 0;">
+                        <div class="company-logo-small" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); width: 40px; height: 40px; font-size: 14px;">👤</div>
+                        <div class="experience-content">
+                            <h4 style="font-size: 14px;">James Wilson</h4>
+                            <p class="company" style="font-size: 12px;">Product Manager at EnterpriseCo</p>
+                        </div>
+                    </div>
+                    <div class="experience-item" style="padding: 10px 0; border-bottom: none;">
+                        <div class="company-logo-small" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); width: 40px; height: 40px; font-size: 14px;">👤</div>
+                        <div class="experience-content">
+                            <h4 style="font-size: 14px;">Lisa Thompson</h4>
+                            <p class="company" style="font-size: 12px;">Design Director</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('About page')">Company</a></li>
+                    <li><a onclick="showToast('Careers page')">Careers</a></li>
+                    <li><a onclick="showToast('Press page')">Press</a></li>
+                    <li><a onclick="showToast('Blog page')">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Community</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('Guidelines page')">Guidelines</a></li>
+                    <li><a onclick="showToast('Partners page')">Partners</a></li>
+                    <li><a onclick="showToast('Developers page')">Developers</a></li>
+                    <li><a onclick="showToast('Advertise page')">Advertise</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('Help Center')">Help Center</a></li>
+                    <li><a onclick="showToast('Safety Center')">Safety Center</a></li>
+                    <li><a onclick="showToast('Privacy Policy')">Privacy Policy</a></li>
+                    <li><a onclick="showToast('Terms of Service')">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('Twitter link')">Twitter</a></li>
+                    <li><a onclick="showToast('Facebook link')">Facebook</a></li>
+                    <li><a onclick="showToast('Instagram link')">Instagram</a></li>
+                    <li><a onclick="showToast('LinkedIn link')">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2008 ConnectPro Inc. All rights reserved. | Privacy | Terms | Cookies</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Search functionality
+        document.getElementById('searchBar').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                showToast('Searching for: ' + this.value);
+            }
+        });
+    </script>
+</body>
+</html>

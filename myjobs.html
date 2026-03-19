@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaperBlog - Jobs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(180deg, #e8e8e8 0%, #d0d0d0 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        /* Brushed Metal Header */
+        .header {
+            background: linear-gradient(180deg, 
+                #f5f5f5 0%, 
+                #e0e0e0 5%,
+                #d0d0d0 50%,
+                #c0c0c0 95%,
+                #a0a0a0 100%);
+            border-bottom: 1px solid #999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            border-radius: 8px;
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.4),
+                inset 0 -1px 0 rgba(0,0,0,0.2),
+                0 2px 4px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+            border: 1px solid #2a6db5;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 300;
+            color: #444;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+        }
+        
+        .logo-text span {
+            font-weight: 600;
+            color: #2a6db5;
+        }
+        
+        .search-container {
+            position: relative;
+            width: 400px;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #999;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #f8f8f8 0%, #fff 100%);
+            box-shadow: 
+                inset 0 2px 4px rgba(0,0,0,0.1),
+                0 1px 0 rgba(255,255,255,0.8);
+            font-size: 14px;
+            color: #555;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .search-bar:focus {
+            border-color: #4a90e2;
+            box-shadow: 
+                inset 0 2px 4px rgba(0,0,0,0.1),
+                0 0 0 3px rgba(74,144,226,0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .notification-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #f0f0f0 0%, #d8d8d8 100%);
+            border: 1px solid #aaa;
+            box-shadow: 
+                0 1px 2px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            font-size: 16px;
+            transition: all 0.1s;
+        }
+        
+        .notification-btn:hover {
+            background: linear-gradient(180deg, #e8e8e8 0%, #c8c8c8 100%);
+        }
+        
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(180deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 2px solid #e8e8e8;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
+            border: 1px solid #aaa;
+            border-radius: 20px;
+            box-shadow: 
+                0 1px 2px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        /* Navigation */
+        .nav {
+            background: linear-gradient(180deg, 
+                #3a3a3a 0%, 
+                #2d2d2d 5%,
+                #1a1a1a 50%,
+                #0d0d0d 100%);
+            border-bottom: 1px solid #000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .nav-item {
+            padding: 12px 24px;
+            color: #ccc;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            border-right: 1px solid #333;
+            border-left: 1px solid #444;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.8);
+            transition: all 0.2s;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .nav-item:first-child {
+            border-left: none;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.1) 0%, 
+                rgba(255,255,255,0.05) 100%);
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            background: linear-gradient(180deg, 
+                rgba(74,144,226,0.3) 0%, 
+                rgba(74,144,226,0.1) 100%);
+            box-shadow: inset 0 -3px 0 #4a90e2;
+        }
+        
+        /* Jobs Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 25px;
+        }
+        
+        /* Sidebar Cards */
+        .sidebar-card {
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.95) 0%, 
+                rgba(248,248,248,0.95) 100%);
+            border: 1px solid #c0c0c0;
+            border-radius: 8px;
+            box-shadow: 
+                0 2px 8px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background: linear-gradient(180deg, 
+                #f0f0f0 0%, 
+                #e0e0e0 100%);
+            padding: 12px 15px;
+            border-bottom: 1px solid #ccc;
+            font-size: 12px;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+        }
+        
+        .card-content {
+            padding: 15px;
+        }
+        
+        /* Menu List */
+        .menu-list {
+            list-style: none;
+        }
+        
+        .menu-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-item:hover {
+            background: linear-gradient(90deg, 
+                rgba(74,144,226,0.1) 0%, 
+                transparent 100%);
+            color: #2a6db5;
+            padding-left: 20px;
+        }
+        
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .page-header {
+            background: linear-gradient(180deg, 
+                #fff 0%, 
+                #f8f8f8 100%);
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            padding: 20px;
+        }
+        
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 300;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .page-header p {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        /* Search Box */
+        .job-search-box {
+            background: linear-gradient(180deg, 
+                #fff 0%, 
+                #f8f8f8 100%);
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            padding: 20px;
+        }
+        
+        .search-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .search-field {
+            flex: 1;
+            position: relative;
+        }
+        
+        .search-field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        .search-field input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .search-field input:focus {
+            border-color: #4a90e2;
+            box-shadow: 
+                inset 0 1px 3px rgba(0,0,0,0.1),
+                0 0 0 3px rgba(74,144,226,0.1);
+        }
+        
+        .search-btn {
+            padding: 12px 30px;
+            background: linear-gradient(180deg, 
+                #4a90e2 0%, 
+                #357abd 100%);
+            border: 1px solid #2a6db5;
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 
+                0 3px 0 #2a6db5,
+                0 4px 6px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+            transition: all 0.1s;
+            font-family: inherit;
+            align-self: flex-end;
+        }
+        
+        .search-btn:hover {
+            background: linear-gradient(180deg, 
+                #5aa0f2 0%, 
+                #4a90e2 100%);
+        }
+        
+        .search-btn:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 1px 0 #2a6db5,
+                inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* Job Card */
+        .job-card {
+            background: linear-gradient(180deg, 
+                #fff 0%, 
+                #fafafa 100%);
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 20px;
+            transition: all 0.2s;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .job-info {
+            flex: 1;
+        }
+        
+        .job-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2a6db5;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .job-title:hover {
+            color: #4a90e2;
+            text-decoration: underline;
+        }
+        
+        .job-company {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .job-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+        
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .job-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .job-tag {
+            padding: 4px 10px;
+            background: linear-gradient(180deg, #f0f0f0 0%, #e8e8e8 100%);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .job-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.1s;
+            font-family: inherit;
+            border: none;
+            white-space: nowrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(180deg, 
+                #4a90e2 0%, 
+                #357abd 100%);
+            border: 1px solid #2a6db5;
+            color: white;
+            box-shadow: 
+                0 3px 0 #2a6db5,
+                0 4px 6px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(180deg, 
+                #5aa0f2 0%, 
+                #4a90e2 100%);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 1px 0 #2a6db5,
+                inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(180deg, 
+                #fff 0%, 
+                #f0f0f0 100%);
+            border: 1px solid #aaa;
+            color: #555;
+            box-shadow: 
+                0 2px 0 #aaa,
+                0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(180deg, 
+                #f8f8f8 0%, 
+                #e8e8e8 100%);
+        }
+        
+        .btn-secondary:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+        
+        .btn-success {
+            background: linear-gradient(180deg, #98fb98 0%, #90ee90 100%);
+            border: 1px solid #7cfc00;
+            color: #228b22;
+            box-shadow: 0 2px 0 #7cfc00;
+        }
+        
+        /* Right Sidebar Widgets */
+        .widget {
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.95) 0%, 
+                rgba(248,248,248,0.95) 100%);
+            border: 1px solid #c0c0c0;
+            border-radius: 8px;
+            box-shadow: 
+                0 2px 8px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .widget-header {
+            background: linear-gradient(180deg, 
+                #f0f0f0 0%, 
+                #e0e0e0 100%);
+            padding: 12px 15px;
+            border-bottom: 1px solid #ccc;
+            font-size: 12px;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .widget-content {
+            padding: 15px;
+        }
+        
+        .saved-job {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .saved-job:last-child {
+            border-bottom: none;
+        }
+        
+        .saved-job:hover {
+            background: rgba(74,144,226,0.05);
+            margin: 0 -15px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        
+        .saved-job-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+        
+        .saved-job:hover .saved-job-title {
+            color: #2a6db5;
+        }
+        
+        .saved-job-company {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(180deg, #333 0%, #222 100%);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            border: 1px solid #444;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(180deg, 
+                #2a2a2a 0%, 
+                #1a1a1a 100%);
+            border-top: 1px solid #333;
+            margin-top: 50px;
+            padding: 40px 0;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .footer-section h4 {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+        
+        .footer-links a:hover {
+            color: #4a90e2;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 30px auto 0;
+            padding: 20px 30px 0;
+            border-top: 1px solid #333;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 200px 1fr;
+            }
+            .right-sidebar {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .left-sidebar {
+                display: none;
+            }
+            .search-container {
+                width: 200px;
+            }
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .job-card {
+                flex-direction: column;
+            }
+            .job-actions {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">PB</div>
+                <div class="logo-text">Paper<span>Blog</span></div>
+            </div>
+            
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-bar" placeholder="Search professionals, companies, jobs..." id="searchBar">
+            </div>
+            
+            <div class="user-menu">
+                <div class="notification-btn" onclick="showToast('3 new notifications')">
+                    🔔
+                    <span class="badge">3</span>
+                </div>
+                <div class="notification-btn" onclick="showToast('5 new messages')">
+                    ✉️
+                    <span class="badge">5</span>
+                </div>
+                <div class="user-profile" onclick="showToast('Profile menu opened')">
+                    <div class="user-avatar"></div>
+                    <span class="user-name">Alex M.</span>
+                    <span style="color:#888;font-size:10px">▼</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="test2.html" class="nav-item">Home</a>
+            <a href="network.html" class="nav-item">My Network</a>
+            <a href="jobs.html" class="nav-item active">Jobs</a>
+            <a href="messages.html" class="nav-item">Messaging</a>
+            <a href="notifications.html" class="nav-item">Notifications</a>
+            <a href="profile.html" class="nav-item">Me</a>
+        </div>
+    </nav>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="left-sidebar">
+            <div class="sidebar-card">
+                <div class="card-header">Job Seeker Tools</div>
+                <div class="card-content" style="padding:0">
+                    <ul class="menu-list">
+                        <li class="menu-item" onclick="showToast('Opening Saved Jobs')">
+                            <span class="menu-icon">🔖</span>
+                            <span>Saved Jobs (8)</span>
+                        </li>
+                        <li class="menu-item" onclick="showToast('Opening Applications')">
+                            <span class="menu-icon">📝</span>
+                            <span>Applied Jobs (3)</span>
+                        </li>
+                        <li class="menu-item" onclick="showToast('Opening Interviews')">
+                            <span class="menu-icon">🗓️</span>
+                            <span>Interviews (1)</span>
+                        </li>
+                        <li class="menu-item" onclick="showToast('Opening Resume')">
+                            <span class="menu-icon">📄</span>
+                            <span>Resume Builder</span>
+                        </li>
+                        <li class="menu-item" onclick="showToast('Opening Preferences')">
+                            <span class="menu-icon">⚙️</span>
+                            <span>Job Preferences</span>
+                        </li>
+                        <li class="menu-item" onclick="showToast('Opening Alerts')">
+                            <span class="menu-icon">🔔</span>
+                            <span>Job Alerts (5)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar-card">
+                <div class="card-header">Career Resources</div>
+                <div class="card-content" style="padding:0">
+                    <ul class="menu-list">
+                        <li class="menu-item" onclick="showToast('Opening Salary Insights')">
+                            <span class="menu-icon">💰</span>
+                            <span>Salary Insights</span>
+                        </li>
+                        <li class="menu-item" onclick="showToast('Opening Interview Prep')">
+                            <span class="menu-icon">🎯</span>
+                            <span>Interview Prep</span>
+                        </li>
+                        <li class="menu-item" onclick="showToast('Opening Skill Assessments')">
+                            <span class="menu-icon">📊</span>
+                            <span>Skill Assessments</span>
+                        </li>
+                        <li class="menu-item" onclick="showToast('Opening Career Advice')">
+                            <span class="menu-icon">💡</span>
+                            <span>Career Advice</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Find Your Dream Job</h1>
+                <p>Discover opportunities that match your skills and interests</p>
+            </div>
+            
+            <!-- Job Search Box -->
+            <div class="job-search-box">
+                <div class="search-row">
+                    <div class="search-field">
+                        <label>What</label>
+                        <input type="text" placeholder="Job title, keywords, or company" id="jobSearch">
+                    </div>
+                    <div class="search-field">
+                        <label>Where</label>
+                        <input type="text" placeholder="City, state, or zip code" id="locationSearch">
+                    </div>
+                    <button class="search-btn" onclick="searchJobs()">Search Jobs</button>
+                </div>
+            </div>
+            
+            <!-- Recommended Jobs -->
+            <div style="background: linear-gradient(180deg, #fff 0%, #fafafa 100%); border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="font-size: 18px; font-weight: 600; color: #333;">Recommended for You</h2>
+                    <div style="font-size: 13px; color: #888;">Based on your profile</div>
+                </div>
+                
+                <div class="job-card">
+                    <div class="company-logo" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">A</div>
+                    <div class="job-info">
+                        <div class="job-title">Senior Product Designer</div>
+                        <div class="job-company">Airbnb</div>
+                        <div class="job-meta">
+                            <span>📍 San Francisco, CA</span>
+                            <span>💼 Full-time</span>
+                            <span>💰 $140k - $180k</span>
+                            <span>📅 2 days ago</span>
+                        </div>
+                        <div class="job-tags">
+                            <span class="job-tag">UX Design</span>
+                            <span class="job-tag">Figma</span>
+                            <span class="job-tag">Design Systems</span>
+                            <span class="job-tag">Remote OK</span>
+                        </div>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn btn-primary" onclick="applyJob(this)">Apply</button>
+                        <button class="btn btn-secondary" onclick="saveJob(this)">Save</button>
+                    </div>
+                </div>
+                
+                <div class="job-card">
+                    <div class="company-logo" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">G</div>
+                    <div class="job-info">
+                        <div class="job-title">UX Research Lead</div>
+                        <div class="job-company">Google</div>
+                        <div class="job-meta">
+                            <span>📍 Mountain View, CA (Remote)</span>
+                            <span>💼 Full-time</span>
+                            <span>💰 $160k - $200k</span>
+                            <span>📅 3 days ago</span>
+                        </div>
+                        <div class="job-tags">
+                            <span class="job-tag">User Research</span>
+                            <span class="job-tag">Data Analysis</span>
+                            <span class="job-tag">Team Leadership</span>
+                            <span class="job-tag">Remote</span>
+                        </div>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn btn-primary" onclick="applyJob(this)">Apply</button>
+                        <button class="btn btn-secondary" onclick="saveJob(this)">Save</button>
+                    </div>
+                </div>
+                
+                <div class="job-card">
+                    <div class="company-logo" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">M</div>
+                    <div class="job-info">
+                        <div class="job-title">Design System Manager</div>
+                        <div class="job-company">Microsoft</div>
+                        <div class="job-meta">
+                            <span>📍 Seattle, WA</span>
+                            <span>💼 Full-time</span>
+                            <span>💰 $150k - $190k</span>
+                            <span>📅 1 week ago</span>
+                        </div>
+                        <div class="job-tags">
+                            <span class="job-tag">Design Systems</span>
+                            <span class="job-tag">React</span>
+                            <span class="job-tag">TypeScript</span>
+                            <span class="job-tag">Management</span>
+                        </div>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn btn-primary" onclick="applyJob(this)">Apply</button>
+                        <button class="btn btn-secondary" onclick="saveJob(this)">Save</button>
+                    </div>
+                </div>
+                
+                <div class="job-card">
+                    <div class="company-logo" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">S</div>
+                    <div class="job-info">
+                        <div class="job-title">Principal Product Designer</div>
+                        <div class="job-company">Spotify</div>
+                        <div class="job-meta">
+                            <span>📍 New York, NY (Hybrid)</span>
+                            <span>💼 Full-time</span>
+                            <span>💰 $170k - $220k</span>
+                            <span>📅 1 week ago</span>
+                        </div>
+                        <div class="job-tags">
+                            <span class="job-tag">Product Design</span>
+                            <span class="job-tag">Mobile</span>
+                            <span class="job-tag">Streaming</span>
+                            <span class="job-tag">Hybrid</span>
+                        </div>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn btn-primary" onclick="applyJob(this)">Apply</button>
+                        <button class="btn btn-secondary" onclick="saveJob(this)">Save</button>
+                    </div>
+                </div>
+                
+                <div class="job-card">
+                    <div class="company-logo" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">F</div>
+                    <div class="job-info">
+                        <div class="job-title">Staff UX Designer</div>
+                        <div class="job-company">Figma</div>
+                        <div class="job-meta">
+                            <span>📍 San Francisco, CA (Remote)</span>
+                            <span>💼 Full-time</span>
+                            <span>💰 $180k - $240k</span>
+                            <span>📅 2 weeks ago</span>
+                        </div>
+                        <div class="job-tags">
+                            <span class="job-tag">Design Tools</span>
+                            <span class="job-tag">Collaboration</span>
+                            <span class="job-tag">Web App</span>
+                            <span class="job-tag">Remote</span>
+                        </div>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn btn-primary" onclick="applyJob(this)">Apply</button>
+                        <button class="btn btn-secondary" onclick="saveJob(this)">Save</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="widget">
+                <div class="widget-header">Saved Jobs</div>
+                <div class="widget-content">
+                    <div class="saved-job" onclick="showToast('Viewing saved job')">
+                        <div class="saved-job-title">Senior Product Designer</div>
+                        <div class="saved-job-company">Airbnb • Saved 2 days ago</div>
+                    </div>
+                    <div class="saved-job" onclick="showToast('Viewing saved job')">
+                        <div class="saved-job-title">UX Research Lead</div>
+                        <div class="saved-job-company">Google • Saved 1 week ago</div>
+                    </div>
+                    <div class="saved-job" onclick="showToast('Viewing saved job')">
+                        <div class="saved-job-title">Design System Manager</div>
+                        <div class="saved-job-company">Microsoft • Saved 2 weeks ago</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="widget">
+                <div class="widget-header">Job Search Preferences</div>
+                <div class="widget-content">
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-size: 12px; font-weight: 600; color: #666; margin-bottom: 8px; text-transform: uppercase;">Job Titles</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                            <span style="padding: 4px 10px; background: #e8f4f8; border-radius: 4px; font-size: 12px; color: #2a6db5;">Product Designer</span>
+                            <span style="padding: 4px 10px; background: #e8f4f8; border-radius: 4px; font-size: 12px; color: #2a6db5;">UX Lead</span>
+                            <span style="padding: 4px 10px; background: #e8f4f8; border-radius: 4px; font-size: 12px; color: #2a6db5;">Design Manager</span>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-size: 12px; font-weight: 600; color: #666; margin-bottom: 8px; text-transform: uppercase;">Locations</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                            <span style="padding: 4px 10px; background: #e8f4f8; border-radius: 4px; font-size: 12px; color: #2a6db5;">San Francisco, CA</span>
+                            <span style="padding: 4px 10px; background: #e8f4f8; border-radius: 4px; font-size: 12px; color: #2a6db5;">Remote</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; font-weight: 600; color: #666; margin-bottom: 8px; text-transform: uppercase;">Job Type</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                            <span style="padding: 4px 10px; background: #e8f4f8; border-radius: 4px; font-size: 12px; color: #2a6db5;">Full-time</span>
+                            <span style="padding: 4px 10px; background: #e8f4f8; border-radius: 4px; font-size: 12px; color: #2a6db5;">Contract</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('About page')">Company</a></li>
+                    <li><a onclick="showToast('Careers page')">Careers</a></li>
+                    <li><a onclick="showToast('Press page')">Press</a></li>
+                    <li><a onclick="showToast('Blog page')">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Community</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('Guidelines page')">Guidelines</a></li>
+                    <li><a onclick="showToast('Partners page')">Partners</a></li>
+                    <li><a onclick="showToast('Developers page')">Developers</a></li>
+                    <li><a onclick="showToast('Advertise page')">Advertise</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('Help Center')">Help Center</a></li>
+                    <li><a onclick="showToast('Safety Center')">Safety Center</a></li>
+                    <li><a onclick="showToast('Privacy Policy')">Privacy Policy</a></li>
+                    <li><a onclick="showToast('Terms of Service')">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <ul class="footer-links">
+                    <li><a onclick="showToast('Twitter link')">Twitter</a></li>
+                    <li><a onclick="showToast('Facebook link')">Facebook</a></li>
+                    <li><a onclick="showToast('Instagram link')">Instagram</a></li>
+                    <li><a onclick="showToast('LinkedIn link')">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2008 ConnectPro Inc. All rights reserved. | Privacy | Terms | Cookies</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Apply for job
+        function applyJob(btn) {
+            btn.textContent = 'Applied ✓';
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-success');
+            btn.disabled = true;
+            showToast('Application submitted successfully!');
+        }
+        
+        // Save job
+        function saveJob(btn) {
+            if (btn.textContent === 'Save') {
+                btn.textContent = 'Saved ✓';
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-success');
+                showToast('Job saved to your list');
+            } else {
+                btn.textContent = 'Save';
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-secondary');
+                showToast('Job removed from saved list');
+            }
+        }
+        
+        // Search jobs
+        function searchJobs() {
+            const job = document.getElementById('jobSearch').value;
+            const location = document.getElementById('locationSearch').value;
+            showToast('Searching for: ' + (job || 'All jobs') + ' in ' + (location || 'All locations'));
+        }
+        
+        // Search functionality
+        document.getElementById('searchBar').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                showToast('Searching for: ' + this.value);
+            }
+        });
+    </script>
+</body>
+</html>
